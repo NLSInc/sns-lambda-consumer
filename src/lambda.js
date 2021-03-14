@@ -22,12 +22,12 @@ const AWS = require('aws-sdk');
 //create and configure a new S3 client
 let s3 = new AWS.S3();
 
-exports.handler = function(event, context, callback) {
+exports.handler = function (event, context, callback) {
 	"use strict";
 
 	// Error out if the Lambda function was invoked from a non-SNS service
 	console.log("EventSource = " + event.Records[0].EventSource);
- 	if (event.Records[0].EventSource != "aws:sns") {
+	if (event.Records[0].EventSource != "aws:sns") {
 		var error = new Error("The service that invoked the function is not an Amazon SNS service. " +
 			"Lambda function cannot successfully process the event payload.");
 		callback(error);
@@ -40,11 +40,20 @@ exports.handler = function(event, context, callback) {
 	let snsMessage = event.Records[0].Sns.Message;
 
 	// get the doctype message attribute
-	let doctype = (event.Records[0].Sns.MessageAttributes.doctype || {}).Value;
+	let doctype = (event.Records[0].Sns.MessageAttributes.doctype || {}).Value || "OTHER";
 
 	let timestamp = new Date(event.Records[0].Sns.Timestamp);
-	let oblpn = event.Records[0].Sns.Message.substring( event.Records[0].Sns.Message.indexOf("<OblpnNumber>")+13, event.Records[0].Sns.Message.indexOf("</OblpnNumber>"));
+	let oblpn = "";
 
+	// SHIPCONFIRM doctypes have the oblpn # in the message
+	if (doctype === "SHIPCONFIRM") {
+		oblpn = event.Records[0].Sns.Message;
+	}
+	// Everything else has the oblpn number in the <OblpnNumber> node.
+	else {
+		oblpn = event.Records[0].Sns.Message.substring(event.Records[0].Sns.Message.indexOf("<OblpnNumber>") + 13, event.Records[0].Sns.Message.indexOf("</OblpnNumber>"));
+	}
+	let snsTopicName = event.Records[0].EventSubscriptionArn.split(':').pop();
 	let logfile = {
 		oblpn: oblpn,
 		timestamp: event.Records[0].Sns.Timestamp,
@@ -55,23 +64,23 @@ exports.handler = function(event, context, callback) {
 
 	//Build S3 call
 	var params = {
-	  Body: snsMessage,
-	  //Body: JSON.stringify(logfile),
-	  Bucket: bucketName,
-	  //Key: event.Records[0].Sns.Subject + "-" + event.Records[0].Sns.Timestamp + ".log"
-	  //Key: `${(doctype ? doctype + "/" : "" )}${timestamp.getFullYear()}/${timestamp.getMonth()+1}/${timestamp.getDate()}/${oblpn}_${event.Records[0].Sns.Timestamp}.json`
-	  Key: `${(doctype ? doctype + "/" : "" )}${oblpn}_${event.Records[0].Sns.Timestamp}.log`
-	 };
+		Body: snsMessage,
+		//Body: JSON.stringify(logfile),
+		Bucket: bucketName,
+		//Key: event.Records[0].Sns.Subject + "-" + event.Records[0].Sns.Timestamp + ".log"
+		//Key: `${(doctype ? doctype + "/" : "" )}${timestamp.getFullYear()}/${timestamp.getMonth()+1}/${timestamp.getDate()}/${oblpn}_${event.Records[0].Sns.Timestamp}.json`
+		Key: `${snsTopicName}/${(doctype ? doctype + "/" : "")}${oblpn}_${event.Records[0].Sns.Timestamp}.log`
+	};
 
-	 //Upload object to S3 bucket
-	 console.log("Logging SNS message to S3...");
-	 
-	 s3.putObject(params, function(err, data) {
-	   if (err)
-		 		console.log(err, err.stack); // an error occurred
-	   else
-		 		console.log("SNS message logged to S3: " + data);           // successful response
-	 });
+	//Upload object to S3 bucket
+	console.log("Logging SNS message to S3...");
+
+	s3.putObject(params, function (err, data) {
+		if (err)
+			console.log(err, err.stack); // an error occurred
+		else
+			console.log("SNS message logged to S3: " + data);           // successful response
+	});
 
 
 	callback(null, 'SNS Consumer Lambda function completed.');
