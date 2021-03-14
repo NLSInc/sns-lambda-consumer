@@ -15,8 +15,20 @@ parameter_overrides = "Environment=\"dev\" SNSTopic=\"shipping-integration-DocCh
 [qa.deploy.parameters]
 stack_name = "aws-shipdocs-sns-notification-logger-qa"
 s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-1oxtubxiktxkx"
-s3_prefix = "aws-shipdocs-sns-notification-logger"
+s3_prefix = "aws-shipdocs-sns-notification-logger-qa"
 region = "us-west-2"
 confirm_changeset = true
 capabilities = "CAPABILITY_IAM"
 parameter_overrides = "Environment=\"qa\" SNSTopic=\"shipping-integration-DocChucker-qa\" NotificationBucket=\"nbs-shipdocs-notifications-nonprod\""
+
+
+[prod]
+[prod.deploy]
+[prod.deploy.parameters]
+stack_name = "aws-shipdocs-sns-notification-logger-prod"
+s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-1dh29bmg9aqn2"
+s3_prefix = "aws-shipdocs-sns-notification-logger-prod"
+region = "us-west-2"
+confirm_changeset = true
+capabilities = "CAPABILITY_IAM"
+parameter_overrides = "Environment=\"prod\" SNSTopic=\"shipping-integration-DocChucker-prod\" NotificationBucket=\"nbs-shipdocs-notifications-prod\""
