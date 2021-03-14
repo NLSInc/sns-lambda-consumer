@@ -39,11 +39,28 @@ exports.handler = function(event, context, callback) {
 	//extract SNS message from lambda event
 	let snsMessage = event.Records[0].Sns.Message;
 
+	// get the doctype message attribute
+	let doctype = (event.Records[0].Sns.MessageAttributes.doctype || {}).Value;
+
+	let timestamp = new Date(event.Records[0].Sns.Timestamp);
+	let oblpn = event.Records[0].Sns.Message.substring( event.Records[0].Sns.Message.indexOf("<OblpnNumber>")+13, event.Records[0].Sns.Message.indexOf("</OblpnNumber>"));
+
+	let logfile = {
+		oblpn: oblpn,
+		timestamp: event.Records[0].Sns.Timestamp,
+		snsMessage: event.Records[0].Sns.Message,
+		doctype: doctype
+	};
+
+
 	//Build S3 call
 	var params = {
 	  Body: snsMessage,
+	  //Body: JSON.stringify(logfile),
 	  Bucket: bucketName,
-	  Key: event.Records[0].Sns.Subject + "-" + event.Records[0].Sns.Timestamp + ".log"
+	  //Key: event.Records[0].Sns.Subject + "-" + event.Records[0].Sns.Timestamp + ".log"
+	  //Key: `${(doctype ? doctype + "/" : "" )}${timestamp.getFullYear()}/${timestamp.getMonth()+1}/${timestamp.getDate()}/${oblpn}_${event.Records[0].Sns.Timestamp}.json`
+	  Key: `${(doctype ? doctype + "/" : "" )}${oblpn}_${event.Records[0].Sns.Timestamp}.log`
 	 };
 
 	 //Upload object to S3 bucket

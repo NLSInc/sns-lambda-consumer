@@ -1,0 +1,67 @@
+{
+  "configurations": [
+    {
+      "type": "aws-sam",
+      "request": "direct-invoke",
+      "name": "sns-lambda-consumer:SNSPayloadLogger",
+      "invokeTarget": {
+        "target": "template",
+        "templatePath": "template.yaml",
+        "logicalId": "SNSPayloadLogger"
+      },
+      "lambda": {
+        "payload": {
+          "path": "events/event-sns.json"
+        },
+        "environmentVariables": {
+          "bucketName": "nbs-shipdocs-notifications"
+        }
+      }
+    },
+    {
+      "type": "aws-sam",
+      "request": "direct-invoke",
+      "name": "repos:src/lambda.handler (nodejs14.x)",
+      "invokeTarget": {
+        "target": "code",
+        "projectRoot": "\\Users\\dbaghdanov\\source\\repos\\sns-lambda-consumer",
+        "lambdaHandler": "src/lambda.handler"
+      },
+      "lambda": {
+        "runtime": "nodejs14.x",
+        "payload": {
+          "json": {
+            "Records": [
+              {
+                "EventSource": "aws:sns",
+                "EventVersion": "1.0",
+                "EventSubscriptionArn": "arn:aws:sns:us-west-2:{{{accountId}}}:ExampleTopic",
+                "Sns": {
+                  "Type": "Notification",
+                  "MessageId": "95df01b4-ee98-5cb9-9903-4c221d41eb5e",
+                  "TopicArn": "arn:aws:sns:us-west-2:123456789012:ExampleTopic",
+                  "Subject": "example subject",
+                  "Message": "<Root><FacilityCode>COLUMBUS</FacilityCode><CarrierCode></CarrierCode><CarrierType></CarrierType><PrinterName>CRETDOC1</PrinterName><DocumentType>PACKSLIP</DocumentType><OblpnNumber>RP82183</OblpnNumber><OblpnType></OblpnType><ShipDate></ShipDate><Email></Email><ShipFrom><FacilityName>COLUMBUS</FacilityName><Address1></Address1><Address2></Address2><Locality></Locality><City></City><State></State><Zip></Zip><Country></Country><PhoneNumber></PhoneNumber><Email></Email><Contact></Contact></ShipFrom><Dimensions><CartonLength>0</CartonLength><CartonWidth>0</CartonWidth><CartonHeight>0</CartonHeight><CartonWeight>12720.7</CartonWeight><CartonVolume>1443636</CartonVolume></Dimensions><OrderLines><OrderLine><OrderNumber>FR95733099</OrderNumber><SalesOrderNumber>SO-73699218</SalesOrderNumber><FulfillmentRequestId>95733099</FulfillmentRequestId><ErpSalesOrderId>95356340</ErpSalesOrderId><WMSLineSeqNumber>4</WMSLineSeqNumber><KitId>41871</KitId><SalesChannel>Retail</SalesChannel><OrderDate>2021-02-23</OrderDate><RequestDate>2021-02-23</RequestDate><Quantity>29</Quantity><Item>100718</Item><Description>SCH IC3 BIKE</Description><ItemInternal>41871</ItemInternal><LineID>4</LineID><AutoPack></AutoPack><Customer><CustomerNumber>109302954</CustomerNumber><CustomerName>Best Buy US DC</CustomerName><Contact>Best Buy US</Contact><Address1>7601 PENN AVE S</Address1><Address2></Address2><City>MINNEAPOLIS</City><State>MN</State><Zip>55423-8500</Zip><Country>US</Country><PoNumber></PoNumber></Customer><ShipAddress><Addressee>Best Buy DDC #728 – Orlando</Addressee><Address1>8906 N ROAD 33</Address1><Address2></Address2><City>POLK CITY</City><State>FL</State><Zip>33868-9010</Zip><Country>US</Country><ShippingMethod>NLS_FRQ_TRK</ShippingMethod><PhoneNumber>(358) 810-0831</PhoneNumber><Email></Email><Contact>Accounts Payable</Contact></ShipAddress></OrderLine><OrderLine><OrderNumber>FR95733099</OrderNumber><SalesOrderNumber>SO-73699218</SalesOrderNumber><FulfillmentRequestId>95733099</FulfillmentRequestId><ErpSalesOrderId>95356340</ErpSalesOrderId><WMSLineSeqNumber>5</WMSLineSeqNumber><KitId>40242</KitId><SalesChannel>Retail</SalesChannel><OrderDate>2021-02-23</OrderDate><RequestDate>2021-02-23</RequestDate><Quantity>29</Quantity><Item>100670</Item><Description>NLS R616 RECUMBENT BIKE</Description><ItemInternal>40242</ItemInternal><LineID>5</LineID><AutoPack></AutoPack><Customer><CustomerNumber>109302954</CustomerNumber><CustomerName>Best Buy US DC</CustomerName><Contact>Best Buy US</Contact><Address1>7601 PENN AVE S</Address1><Address2></Address2><City>MINNEAPOLIS</City><State>MN</State><Zip>55423-8500</Zip><Country>US</Country><PoNumber></PoNumber></Customer><ShipAddress><Addressee>Best Buy DDC #728 – Orlando</Addressee><Address1>8906 N ROAD 33</Address1><Address2></Address2><City>POLK CITY</City><State>FL</State><Zip>33868-9010</Zip><Country>US</Country><ShippingMethod>NLS_FRQ_TRK</ShippingMethod><PhoneNumber>(358) 810-0831</PhoneNumber><Email></Email><Contact>Accounts Payable</Contact></ShipAddress></OrderLine><OrderLine><OrderNumber>FR95733099</OrderNumber><SalesOrderNumber>SO-73699218</SalesOrderNumber><FulfillmentRequestId>95733099</FulfillmentRequestId><ErpSalesOrderId>95356340</ErpSalesOrderId><WMSLineSeqNumber>1</WMSLineSeqNumber><KitId>90819</KitId><SalesChannel>Retail</SalesChannel><OrderDate>2021-02-23</OrderDate><RequestDate>2021-02-23</RequestDate><Quantity>23</Quantity><Item>100932</Item><Description>SCH 230 RECUMBENT BIKE</Description><ItemInternal>90819</ItemInternal><LineID>1</LineID><AutoPack></AutoPack><Customer><CustomerNumber>109302954</CustomerNumber><CustomerName>Best Buy US DC</CustomerName><Contact>Best Buy US</Contact><Address1>7601 PENN AVE S</Address1><Address2></Address2><City>MINNEAPOLIS</City><State>MN</State><Zip>55423-8500</Zip><Country>US</Country><PoNumber></PoNumber></Customer><ShipAddress><Addressee>Best Buy DDC #728 – Orlando</Addressee><Address1>8906 N ROAD 33</Address1><Address2></Address2><City>POLK CITY</City><State>FL</State><Zip>33868-9010</Zip><Country>US</Country><ShippingMethod>NLS_FRQ_TRK</ShippingMethod><PhoneNumber>(358) 810-0831</PhoneNumber><Email></Email><Contact>Accounts Payable</Contact></ShipAddress></OrderLine><OrderLine><OrderNumber>FR95733099</OrderNumber><SalesOrderNumber>SO-73699218</SalesOrderNumber><FulfillmentRequestId>95733099</FulfillmentRequestId><ErpSalesOrderId>95356340</ErpSalesOrderId><WMSLineSeqNumber>3</WMSLineSeqNumber><KitId>40241</KitId><SalesChannel>Retail</SalesChannel><OrderDate>2021-02-23</OrderDate><RequestDate>2021-02-23</RequestDate><Quantity>29</Quantity><Item>100669</Item><Description>NLS U616 UPRIGHT BIKE</Description><ItemInternal>40241</ItemInternal><LineID>3</LineID><AutoPack></AutoPack><Customer><CustomerNumber>109302954</CustomerNumber><CustomerName>Best Buy US DC</CustomerName><Contact>Best Buy US</Contact><Address1>7601 PENN AVE S</Address1><Address2></Address2><City>MINNEAPOLIS</City><State>MN</State><Zip>55423-8500</Zip><Country>US</Country><PoNumber></PoNumber></Customer><ShipAddress><Addressee>Best Buy DDC #728 – Orlando</Addressee><Address1>8906 N ROAD 33</Address1><Address2></Address2><City>POLK CITY</City><State>FL</State><Zip>33868-9010</Zip><Country>US</Country><ShippingMethod>NLS_FRQ_TRK</ShippingMethod><PhoneNumber>(358) 810-0831</PhoneNumber><Email></Email><Contact>Accounts Payable</Contact></ShipAddress></OrderLine><OrderLine><OrderNumber>FR95733099</OrderNumber><SalesOrderNumber>SO-73699218</SalesOrderNumber><FulfillmentRequestId>95733099</FulfillmentRequestId><ErpSalesOrderId>95356340</ErpSalesOrderId><WMSLineSeqNumber>2</WMSLineSeqNumber><KitId>90820</KitId><SalesChannel>Retail</SalesChannel><OrderDate>2021-02-23</OrderDate><RequestDate>2021-02-23</RequestDate><Quantity>27</Quantity><Item>100931</Item><Description>SCH 130 UPRIGHT BIKE</Description><ItemInternal>90820</ItemInternal><LineID>2</LineID><AutoPack></AutoPack><Customer><CustomerNumber>109302954</CustomerNumber><CustomerName>Best Buy US DC</CustomerName><Contact>Best Buy US</Contact><Address1>7601 PENN AVE S</Address1><Address2></Address2><City>MINNEAPOLIS</City><State>MN</State><Zip>55423-8500</Zip><Country>US</Country><PoNumber></PoNumber></Customer><ShipAddress><Addressee>Best Buy DDC #728 – Orlando</Addressee><Address1>8906 N ROAD 33</Address1><Address2></Address2><City>POLK CITY</City><State>FL</State><Zip>33868-9010</Zip><Country>US</Country><ShippingMethod>NLS_FRQ_TRK</ShippingMethod><PhoneNumber>(358) 810-0831</PhoneNumber><Email></Email><Contact>Accounts Payable</Contact></ShipAddress></OrderLine></OrderLines></Root>",
+                  "Timestamp": "1970-01-01T00:00:00.000Z",
+                  "SignatureVersion": "1",
+                  "Signature": "EXAMPLE",
+                  "SigningCertUrl": "EXAMPLE",
+                  "UnsubscribeUrl": "EXAMPLE",
+                  "MessageAttributes": {
+                    "doctype": {
+                      "Type": "String",
+                      "Value": "SHIPLABEL"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "environmentVariables": {
+          "bucketName": "nbs-shipdocs-notifications"
+        }
+      }
+    }
+  ]
+}
