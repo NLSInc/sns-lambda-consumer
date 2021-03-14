@@ -1,0 +1,27 @@
+{
+    "Records": [
+        {
+            "EventSource": "aws:sns",
+            "EventVersion": "1.0",
+            "EventSubscriptionArn": "arn:aws:sns:us-west-2:{{{accountId}}}:shipping-integration-DocChucker-dev",
+            "Sns": {
+                "Type": "Notification",
+                "MessageId": "95df01b4-ee98-5cb9-9903-4c221d41eb5e",
+                "TopicArn": "arn:aws:sns:us-west-2:123456789012:ExampleTopic",
+                "Subject": "example subject",
+                "Message": "OBLPNDBTEST101910",
+                "Timestamp": "2021-03-12T17:10:10.206Z",
+                "SignatureVersion": "1",
+                "Signature": "EXAMPLE",
+                "SigningCertUrl": "EXAMPLE",
+                "UnsubscribeUrl": "EXAMPLE",
+                "MessageAttributes": {
+                    "doctype": {
+                        "Type": "String",
+                        "Value": "SHIPCONFIRM"
+                    }
+                }
+            }
+        }
+    ]
+}

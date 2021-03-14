@@ -32,8 +32,8 @@ Parameters:
 Resources:
   # This is an SNS Topic with all default configuration properties. To learn more about the available options, see
   # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sns-topic.html
-  SimpleTopic:
-    Type: AWS::SNS::Topic
+  # SimpleTopic:
+  #   Type: AWS::SNS::Topic
   
   # This is the Lambda function definition associated with the source code: sns-payload-logger.js. For all available properties, see
   # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction

@@ -1,0 +1,22 @@
+version = 0.1
+[default]
+[default.deploy]
+[default.deploy.parameters]
+stack_name = "aws-shipdocs-sns-notification-logger-dev"
+s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-1oxtubxiktxkx"
+s3_prefix = "aws-shipdocs-sns-notification-logger-dev"
+region = "us-west-2"
+confirm_changeset = true
+capabilities = "CAPABILITY_IAM"
+parameter_overrides = "Environment=\"dev\" SNSTopic=\"shipping-integration-DocChucker-dev\" NotificationBucket=\"nbs-shipdocs-notifications-nonprod\""
+
+[qa]
+[qa.deploy]
+[qa.deploy.parameters]
+stack_name = "aws-shipdocs-sns-notification-logger-qa"
+s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-1oxtubxiktxkx"
+s3_prefix = "aws-shipdocs-sns-notification-logger"
+region = "us-west-2"
+confirm_changeset = true
+capabilities = "CAPABILITY_IAM"
+parameter_overrides = "Environment=\"qa\" SNSTopic=\"shipping-integration-DocChucker-qa\" NotificationBucket=\"nbs-shipdocs-notifications-nonprod\""
