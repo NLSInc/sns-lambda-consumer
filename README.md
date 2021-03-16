@@ -1,3 +1,5 @@
+# SNS -> S3 Logging
+
 ## Why
 
 The reason behind this [AWS Lambda][1] function is to create a general-purpose function that can capture the payload of an Amazon SNS message and log it to an S3 bucket.
@@ -25,20 +27,15 @@ The source code is based on a NodeJS package structure and uses NPM to import li
 
 
 ## Setting up the Components
-1. Define an S3 bucket that will store the SNS messages
-2. Define an IAM Role that allows the function to write to the S3 bucket
-3. Define the [AWS Lambda function][2]
-4. Add an environment variable to the lambda function called `bucketName` that corresponds to the Amazon S3 bucket that the SNS message payload needs to be written to.
-5. Assign the IAM role to the Lambda function, which will provide the permissions needed to write to the S3 bucket
-6. [Create Amazon Simple Notification Service (SNS) Topic][3] through the console
-7. Create a subscription that will [invoke the lambda function](http://docs.aws.amazon.com/sns/latest/dg/sns-lambda.html)
-
+The SAM template file, `template.yaml` defines the lambda to be deployed.  SAM will subscribe the lambda to the SNS Topic, and establish all IAM permissions to receive messages and write to the S3 bucket.
 
 
 ## Working with the source code
 - Clone or fork this repository
 - Ensure that you've followed the [Requirements](#requirements) section above
-- Run `npm run build` to install dependencies, package the Lambda function and node modules in a zip and finally deploys the Lambda function to AWS using the AWS CLI.
+- ~~Run `npm run build` to install dependencies, package the Lambda function and node modules in a zip and finally deploys the Lambda function to AWS using the AWS CLI.~~
+- Run `sam deploy --config-env {environment}`
+  - environment parameters are configured in samconfig.toml
 
 ## License
 
