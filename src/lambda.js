@@ -53,7 +53,7 @@ exports.handler = function (event, context, callback) {
 	else {
 		oblpn = event.Records[0].Sns.Message.substring(event.Records[0].Sns.Message.indexOf("<OblpnNumber>") + 13, event.Records[0].Sns.Message.indexOf("</OblpnNumber>"));
 	}
-	let snsTopicName = event.Records[0].EventSubscriptionArn.split(':').pop();
+	let snsTopicName = event.Records[0].EventSubscriptionArn.split(':').slice(-2,-1)[0];
 	let logfile = {
 		oblpn: oblpn,
 		timestamp: event.Records[0].Sns.Timestamp,
